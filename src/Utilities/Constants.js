@@ -1,1 +1,0 @@
-export const  WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&units=metric&appid=6c92d5035bca136f069317e8cfe34434" 
