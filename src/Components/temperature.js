@@ -4,7 +4,13 @@ import './temp.css';
 
 const Temperature = () => {
     const [searchValue, setSearchValue] = useState("");
-    const [tempInfo,setTempInfo] = useState({});
+    const [tempInfo,setTempInfo] = useState(()=>{
+        const storedData = localStorage.getItem('weather');
+        return storedData? JSON.parse(storedData) : {};
+    });
+    const showInfo = ()=>{
+        console.log('temp  info -- ', tempInfo)
+    }
     const getWeather = async () => {
         try{
             let url = `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&units=metric&appid=6c92d5035bca136f069317e8cfe34434`;
@@ -31,6 +37,7 @@ const Temperature = () => {
             };
             //set these values in state hook
             setTempInfo(myNewWeatherInfo);
+            localStorage.setItem('weather', JSON.stringify(myNewWeatherInfo))
         }
         catch(err){
             console.log(err);
@@ -38,8 +45,9 @@ const Temperature = () => {
     }
     useEffect(()=>{
         getWeather();
+        
     }, [] );
-    // console.log(`temperature info - ${tempInfo}`)
+    console.log(`temperature info - ${tempInfo}`)
     return (
         <>
             <div className="wrap">
@@ -51,7 +59,7 @@ const Temperature = () => {
             </div>
             
             {/* our weatherCard  */}
-           <WeatherCard {...tempInfo}/>
+           <WeatherCard tempInfo={tempInfo}/>
         </>
     )
 }
